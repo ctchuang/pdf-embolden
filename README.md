@@ -58,6 +58,15 @@ To keep existing annotations, replace the attachment file in place rather than i
 - Text that already uses a non-default render mode (outlines, clipping, invisible OCR text) is left as it is.
 - Tested with PDF.js (Zotero, Firefox) and Poppler.
 
+## Development
+
+```bash
+pip install -r requirements-dev.txt
+pytest
+```
+
+Tests marked `xfail` describe known limitations; they are strict, so fixing one makes the suite flag the test to be un-marked.
+
 ## 中文說明
 
 Computer Modern／Latin Modern 這類 LaTeX 預設字型筆畫極細，在 Zotero、Firefox 等以 PDF.js 渲染、沒有字型平滑的閱讀器裡看起來特別淡。這個腳本會把符合條件字型的文字改成「填色＋描邊」模式，用同色細線描出字形外框來加粗。字的位置與文字層完全不變，搜尋、選取不受影響，Zotero 裡既有的註記也不會跑位。
