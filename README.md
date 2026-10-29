@@ -16,27 +16,31 @@ Nothing else changes. Glyph positions, page geometry and the text layer stay exa
 
 ## Install
 
+The project uses [uv](https://docs.astral.sh/uv/). The only runtime dependency is pikepdf.
+
 ```bash
-pip install -r requirements.txt   # just pikepdf
+uv sync
 ```
+
+`uv run` also installs dependencies on first use, so this step is optional.
 
 ## Usage
 
 ```bash
 # Default: 0.15 pt stroke on Computer Modern / Latin Modern / AMS symbol fonts
-python embolden.py book.pdf book_bold.pdf
+uv run embolden.py book.pdf book_bold.pdf
 
 # Choose the stroke width in points (0.1 subtle, 0.2 clearly heavier, 0.3 near semibold)
-python embolden.py book.pdf book_bold.pdf --width 0.2
+uv run embolden.py book.pdf book_bold.pdf --width 0.2
 
 # See which fonts the PDF uses and which ones the pattern matches
-python embolden.py book.pdf --list-fonts
+uv run embolden.py book.pdf --list-fonts
 
 # Target other fonts with a regex, e.g. Times clones
-python embolden.py paper.pdf paper_bold.pdf --fonts "Times|NimbusRom|TeXGyreTermes|STIX"
+uv run embolden.py paper.pdf paper_bold.pdf --fonts "Times|NimbusRom|TeXGyreTermes|STIX"
 
 # Leave figures (form XObjects) untouched
-python embolden.py book.pdf book_bold.pdf --no-forms
+uv run embolden.py book.pdf book_bold.pdf --no-forms
 ```
 
 Font names are matched with the six-letter subset tag removed (`ABCDEF+CMR10` is matched as `CMR10`).
@@ -61,8 +65,7 @@ To keep existing annotations, replace the attachment file in place rather than i
 ## Development
 
 ```bash
-pip install -r requirements-dev.txt
-pytest
+uv run pytest
 ```
 
 Tests marked `xfail` describe known limitations; they are strict, so fixing one makes the suite flag the test to be un-marked.
@@ -72,7 +75,7 @@ Tests marked `xfail` describe known limitations; they are strict, so fixing one 
 Computer Modern／Latin Modern 這類 LaTeX 預設字型筆畫極細，在 Zotero、Firefox 等以 PDF.js 渲染、沒有字型平滑的閱讀器裡看起來特別淡。這個腳本會把符合條件字型的文字改成「填色＋描邊」模式，用同色細線描出字形外框來加粗。字的位置與文字層完全不變，搜尋、選取不受影響，Zotero 裡既有的註記也不會跑位。
 
 ```bash
-pip install -r requirements.txt
-python embolden.py 原檔.pdf 加粗.pdf --width 0.15
-python embolden.py 原檔.pdf --list-fonts   # 查看 PDF 用了哪些字型
+uv sync                                     # 安裝依賴（需先安裝 uv）
+uv run embolden.py 原檔.pdf 加粗.pdf --width 0.15
+uv run embolden.py 原檔.pdf --list-fonts       # 查看 PDF 用了哪些字型
 ```
