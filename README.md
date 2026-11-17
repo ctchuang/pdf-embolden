@@ -27,7 +27,8 @@ uv sync
 ## Usage
 
 ```bash
-# Default: 0.15 pt stroke on Computer Modern / Latin Modern / AMS symbol fonts
+# Default: 0.15 pt stroke on common LaTeX fonts (Computer Modern, cm-super,
+# Latin Modern, AMS symbols, and Times clones such as TeX Gyre Termes / newtx / STIX)
 uv run embolden.py book.pdf book_bold.pdf
 
 # Choose the stroke width in points (0.1 subtle, 0.2 clearly heavier, 0.3 near semibold)
@@ -36,8 +37,8 @@ uv run embolden.py book.pdf book_bold.pdf --width 0.2
 # See which fonts the PDF uses and which ones the pattern matches
 uv run embolden.py book.pdf --list-fonts
 
-# Target other fonts with a regex, e.g. Times clones
-uv run embolden.py paper.pdf paper_bold.pdf --fonts "Times|NimbusRom|TeXGyreTermes|STIX"
+# Target other fonts with a regex, e.g. Libertine
+uv run embolden.py paper.pdf paper_bold.pdf --fonts "Libertin"
 
 # Leave figures (form XObjects) untouched
 uv run embolden.py book.pdf book_bold.pdf --no-forms

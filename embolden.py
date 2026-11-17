@@ -2,7 +2,7 @@
 """
 pdf-embolden: make thin fonts in a PDF look heavier on screen, without moving anything.
 
-Computer Modern / Latin Modern (the LaTeX defaults) and similar print fonts have
+Computer Modern / Latin Modern / Times (common LaTeX fonts) and similar print fonts have
 hairline strokes that look faint in viewers without font smoothing, such as
 PDF.js (used by Zotero and Firefox). This script switches matching text to
 text render mode 2 (fill + stroke) and strokes each glyph outline with a thin
@@ -20,11 +20,16 @@ from pikepdf import Name, Operator
 
 __version__ = "1.0.0"
 
-# Computer Modern, Latin Modern and the AMS symbol fonts.
+# Common thin LaTeX print fonts: Computer Modern (Type 1 and cm-super),
+# Latin Modern, AMS symbols, and the Times family used by newtx / txfonts.
 DEFAULT_FONT_PATTERN = (
-    r"CM(R|MI|MIB|SY|EX|BX|TI|SL|TT|CSC)\d+"
+    r"CM(R|MI|MIB|SY|EX|BX|TI|SL|TT|CSC|SS|SSI|SSBX)\d+"
+    r"|SF[A-Z]{2}\d{4}"
     r"|LMRoman\d+-|LMRomanSlant\d+-|LMRomanCaps\d+-|LMMono\d+-"
+    r"|LMMath(Italic|Symbols|Extension)\d+-"
     r"|MSAM\d+|MSBM\d+"
+    r"|TeXGyreTermes|NimbusRom|STIX"
+    r"|NewTX|tx(r|b|i|bi|sl|sc|sy|ex|mi|bmi)[a-zA-Z]*$"
 )
 
 FILL_TO_STROKE = {"g": "G", "rg": "RG", "k": "K", "cs": "CS", "sc": "SC", "scn": "SCN"}
@@ -261,7 +266,8 @@ def main(argv=None):
                     help="stroke width in points (default: 0.15; try 0.1 to 0.3)")
     ap.add_argument("-f", "--fonts", default=DEFAULT_FONT_PATTERN,
                     help="regex matched against font names, subset tag removed "
-                         "(default: Computer Modern / Latin Modern / AMS symbols)")
+                         "(default: Computer Modern, cm-super, Latin Modern, AMS symbols, "
+                         "Times family incl. newtx / txfonts)")
     ap.add_argument("--no-forms", action="store_true",
                     help="leave form XObjects (usually figures) untouched")
     ap.add_argument("--list-fonts", action="store_true",

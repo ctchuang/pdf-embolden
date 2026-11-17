@@ -67,17 +67,27 @@ def test_default_pattern_matches_tex_fonts(name):
 
 @pytest.mark.parametrize("name", [
     "Helvetica", "Times-Roman", "TimesNewRomanPSMT", "ArialMT",
-    "NimbusRomNo9L-Regu", "CMRoman", "XCMR10",
+    "CMRoman", "XCMR10", "Inconsolata-Identity-H", "DejaVuSans",
+    "SFProText-Regular", "txtt", "LCIRCLE10",
 ])
 def test_default_pattern_skips_other_fonts(name):
     assert not DEFAULT.match(name)
 
 
-@pytest.mark.xfail(strict=True, reason="default pattern misses cm-super, LM math and CM sans")
 @pytest.mark.parametrize("name", [
-    "SFRM1000", "LMMathItalic10-Italic", "LMMathSymbols10-Italic", "CMSS10",
+    "SFRM1000", "SFTI1095", "SFBX1200", "LMMathItalic10-Italic",
+    "LMMathSymbols10-Italic", "LMMathExtension10-Regular", "CMSS10", "CMSSBX10",
 ])
 def test_default_pattern_matches_more_tex_fonts(name):
+    assert DEFAULT.match(name)
+
+
+@pytest.mark.parametrize("name", [
+    "TeXGyreTermesX-Regular", "TeXGyreTermesX-Bold-Identity-H", "TeXGyreTermes-Italic",
+    "NimbusRomNo9L-Regu", "NimbusRoman-Regular", "STIXGeneral-Regular", "STIXTwoText",
+    "NewTXMI", "NewTXBMI7", "txmiaX", "txbmiaX", "txsya", "txsys", "txexas", "txr",
+])
+def test_default_pattern_matches_times_family(name):
     assert DEFAULT.match(name)
 
 
