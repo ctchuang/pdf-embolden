@@ -40,6 +40,11 @@ uv run embolden.py book.pdf --list-fonts
 # Target other fonts with a regex, e.g. Libertine
 uv run embolden.py paper.pdf paper_bold.pdf --fonts "Libertin"
 
+# Chinese books (e.g. d2l-zh): add the Source Han Serif / Source Serif body fonts
+# to the math fonts; a thinner stroke keeps dense CJK glyphs from filling in
+uv run embolden.py d2l-zh.pdf d2l-zh_bold.pdf \
+  --fonts "CM|MSAM|MSBM|SourceHanSerifSC-Regular|SourceSerifPro-(Regular|It)" --width 0.1
+
 # Leave figures (form XObjects) untouched
 uv run embolden.py book.pdf book_bold.pdf --no-forms
 ```
@@ -79,4 +84,9 @@ Computer Modern／Latin Modern 這類 LaTeX 預設字型筆畫極細，在 Zoter
 uv sync                                     # 安裝依賴（需先安裝 uv）
 uv run embolden.py 原檔.pdf 加粗.pdf --width 0.15
 uv run embolden.py 原檔.pdf --list-fonts       # 查看 PDF 用了哪些字型
+
+# 中文書（例如 d2l-zh）：內文是思源宋體／Source Serif，不在預設清單裡，需自行指定；
+# 中文字筆畫密，描邊寬度建議 0.1，避免糊成一團
+uv run embolden.py d2l-zh.pdf d2l-zh_bold.pdf \
+  --fonts "CM|MSAM|MSBM|SourceHanSerifSC-Regular|SourceSerifPro-(Regular|It)" --width 0.1
 ```
